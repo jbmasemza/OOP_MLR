@@ -40,13 +40,15 @@ class ErrorCalculator:
         return rmse
 
     def error_summary(self):
-
-        print('error_summary: ')
-
-        std_resid = self.get_standardised_residuals()
-
-        print(f'average standard residuals: {std_resid.mean()}')
-        print(f'minimum standard residuals: {min(std_resid)}')
-        print(f'maximum standard residuals: {max(std_resid)}')
-        print(f'MSE: {self.get_mse()}')
-        print(f'RSME: {self.get_rmse()}')
+        std_resid_min = min(self.std_res)
+        std_resid_max = max(self.std_res)
+        rmse_min = min(self.rmse)
+        rmse_max = max(self.rmse)
+        mse_min = min(self.mse)
+        mse_max = max(self.mse)
+        print(f'standard residual: {std_resid_min}')
+        print(f'standard residual: {std_resid_max}')
+        print(f'min rmse: {rmse_min}')
+        print(f'max rmse: {rmse_max}')
+        print(f'min mse: {mse_min}')
+        print(f'max mse: {mse_max}')
