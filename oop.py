@@ -7,17 +7,6 @@ class ErrorCalculator:
         self.y          =   np.array(y)       
         self.y_pred     =   np.array(y_pred)  
 
-   
-
-    def dimention(self):
-
-        if len(self.y.shape) == len(self.y_pred.shape):
-            return True
-
-        else:
-            raise ValueError(f'shape of y: {self.y} != shape of y_pred: {self.y_pred}')
-
-
 
     def get_residuals(self):
 
@@ -49,6 +38,30 @@ class ErrorCalculator:
         print(f'standard residual: {std_resid_min}')
         print(f'standard residual: {std_resid_max}')
         print(f'min rmse: {rmse_min}')
+class Plotter(ErrorCalculator):
+
+    def plot(self):
+        plt.hist(self.resid)
+        plt.title('Distribution of residuals')
+        plt.xlabel('Residuals')
+        plt.ylabel('Distribution')
+        plt.show()
+        return plt.show()
+
+
+class HistogramPlotter(Plotter):
+
+    Plotter.plot()
+    super()
+
+
+class ScatterPlotter(Plotter):
+    def scatter(self):
+        plt.scatter(self.y_pred, self.resid)
+        plt.xlabel('Observed values')
+        plt.ylabel('predicted values')
+        plt.title('Observed values vs predicted values')
+    super()
         print(f'max rmse: {rmse_max}')
         print(f'min mse: {mse_min}')
         print(f'max mse: {mse_max}')
