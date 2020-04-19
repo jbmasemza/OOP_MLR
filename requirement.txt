@@ -1,3 +1,13 @@
 sklearn
 matplotlib
 numpy
+pandas 
+statsmodels
+seaborn
+datetime 
+statsmodels.formula.api 
+statsmodels.api 
+scipy.stats 
+ train_test_split
+scatter_matrix
+rmse
