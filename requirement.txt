@@ -8,6 +8,6 @@ datetime
 statsmodels.formula.api 
 statsmodels.api 
 scipy.stats 
- train_test_split
+train_test_split
 scatter_matrix
 rmse
