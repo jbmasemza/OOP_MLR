@@ -1,33 +1,76 @@
-import numpy as np
-import matplotlib.pyplot as plt
 
-# ErrorCalculator Class
+from sklearn.metrics import mean_squared_error as mse
+import matplotlib.pyplot as plt
+import numpy as np
+
+
 class ErrorCalculator:
 
-    def __init__(self, y, y_predict):
-
-        self.y          =   np.array(y)       
-        self.y_predict     =   np.array(y_predict)  
-
+    def __init__(self, resid, stand_res, mse, rmse, y, y_pred):
+        self.resid = resid
+        self.stand_res = stand_res
+        self.mse = mse
+        self.rmse = rmse
+        self.y_pred = np.array(y_pred)
+        self.y = np.array(y)
 
     def get_residuals(self):
-
-        residuals = self.y - self.y_predict
-        return residuals
+        self.resid = self.y - self.y_pred
+        return self.resid
 
     def get_standardised_residuals(self):
-
-        standardised_residuals = self.get_residuals() / (self.get_residuals()/std())
-        return standardised_residuals
+        self.stand_res = (self.y - self.y_pred) / (self.y_pred)**0.5
+        return self.stand_res
 
     def get_mse(self):
-
-        mse = np.square(np.subtract(self.y, self.y_predict)).mean()
-        return mse
+        self.mse = mse(self.y, self.y_pred)
+        return self.mse
 
     def get_rmse(self):
+        self.rmse = mse(self.y, self.y_pred, squared=False)
+        return self.rmse
 
-        rmse = np.sqrt(((self.y_predict - self.y)**2).mean())
+    def error_summary(self):
+        stand_resid_min = min(self.stand_res)
+        stand_resid_max = max(self.stand_res)
+        rmse_min = min(self.rmse)
+        rmse_max = max(self.rmse)
+        mse_min = min(self.mse)
+        mse_max = max(self.mse)
+    print(f'standard residual: {stand_resid_min}') 
+    print(f'standard residual: {stand_resid_max}')
+    print(f'min rmse: {rmse_min}')
+    print(f'max rmse: {rmse_max}')
+    print(f'min mse: {mse_min}')
+    print(f'max mse: {mse_max}')
+
+
+class Plotter(ErrorCalculator):
+
+    def plot(self):
+        plt.hist(self.resid)
+        plt.title('Distribution of residuals')
+        plt.xlabel('Residuals')
+        plt.ylabel('Distribution')
+        plt.show()
+        return plt.show()
+
+
+class HistogramPlotter(Plotter):
+
+    Plotter.plot()
+    super()
+
+
+class ScatterPlotter(Plotter):
+    def scatter(self):
+        plt.scatter(self.y_pred, self.resid)
+        plt.xlabel('Observed values')
+        plt.ylabel('predicted values')
+        plt.title('Observed values vs predicted values')
+    super()
+        rmse = np.sqrt(((self.y_pred - self.y)**2).mean())
+
         return rmse
 
     def error_summary(self):
@@ -37,6 +80,7 @@ class ErrorCalculator:
         rmse_max = max(self.rmse)
         mse_min = min(self.mse)
         mse_max = max(self.mse)
+
         return f'standard residual: {std_resid_min}'
         return f'standard residual: {std_resid_max}' 
         return f'min rmse: {rmse_min}'
@@ -75,3 +119,33 @@ class ScatterPlotter(Plotter):
         plt.xlabel("Actual")
         plt.ylabel("Prediction")
         return plt.show()
+
+        print(f'standard residual: {std_resid_min}')
+        print(f'standard residual: {std_resid_max}')
+        print(f'min rmse: {rmse_min}')
+
+class Plotter(ErrorCalculator):
+    def plot(self):
+        plt.hist(self.resid)
+        plt.title('Distribution of residuals')
+        plt.xlabel('Residuals')
+        plt.ylabel('Distribution')
+        plt.show()
+        return plt.show()
+
+
+class HistogramPlotter(Plotter):
+
+    Plotter.plot()
+    super()
+
+
+class ScatterPlotter(Plotter):
+    def scatter(self):
+        plt.scatter(self.y_pred, self.resid)
+        plt.xlabel('Observed values')
+        plt.ylabel('predicted values')
+        plt.title('Observed values vs predicted values')
+    super()
+        
+
